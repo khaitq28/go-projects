@@ -14,3 +14,5 @@ CREATE TABLE tasks (
                        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                        FOREIGN KEY (user_id) REFERENCES users(id)
 );
+
+INSERT INTO users (name, email) VALUES ('FIRST_USER', 'firstemail@gmail.com');
