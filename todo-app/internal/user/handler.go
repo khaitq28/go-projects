@@ -19,7 +19,8 @@ func (h *UserHandler) RegisterRoutes(rg *gin.RouterGroup) {
 	r := rg.Group("/users")
 	r.POST("/", h.createUser)
 	r.GET("/:id", h.getUserByID)
-	r.GET("/", h.welcome)
+	r.GET("/", h.getAllUsers)
+	//r.GET("/", h.welcome)
 }
 
 func (h *UserHandler) getUserByID(c *gin.Context) {
@@ -31,27 +32,39 @@ func (h *UserHandler) getUserByID(c *gin.Context) {
 	}
 	user, err := h.userService.GetUserById(uint(id))
 	if err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "User not found"})
+		c.JSON(http.StatusNotFound, gin.H{"error": "User not found : " + err.Error()})
 		return
 	}
 	c.JSON(http.StatusOK, user)
 }
 
+type RequestBody struct {
+	Name  string `json:"name" binding:"required"`
+	Email string `json:"email" binding:"required,email"`
+}
+
 func (h *UserHandler) createUser(c *gin.Context) {
-	var req struct {
-		Name  string `json:"name"`
-		Email string `json:"email"`
-	}
-	if err := c.ShouldBindJSON(&req); err != nil {
+
+	var body RequestBody
+	if err := c.ShouldBindJSON(&body); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input"})
 		return
 	}
-	user, err := h.userService.CreateUser(req.Name, req.Email)
+	user, err := h.userService.CreateUser(body.Name, body.Email)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Could not create user"})
 		return
 	}
 	c.JSON(http.StatusCreated, user)
+}
+
+func (h *UserHandler) getAllUsers(c *gin.Context) {
+	users, err := h.userService.GetAllUsers()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Could not get all users"})
+		return
+	}
+	c.JSON(http.StatusOK, users)
 }
 
 func (h *UserHandler) welcome(c *gin.Context) {

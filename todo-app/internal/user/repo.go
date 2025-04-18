@@ -8,6 +8,7 @@ type UserRepository interface {
 	GetById(id uint) (*User, error)
 	DeleteById(id uint) error
 	Create(user *User) error
+	GetAll() ([]*User, error)
 }
 
 type repository struct {
@@ -17,6 +18,13 @@ type repository struct {
 func NewRepository(db *gorm.DB) UserRepository {
 	r := repository{db: db}
 	return &r
+}
+func (r *repository) GetAll() ([]*User, error) {
+	var users []*User
+	if err := r.db.Find(&users).Error; err != nil {
+		return nil, err
+	}
+	return users, nil
 }
 
 func (r *repository) Create(user *User) error {
