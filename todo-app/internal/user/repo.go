@@ -1,0 +1,36 @@
+package user
+
+import (
+	"gorm.io/gorm"
+)
+
+type UserRepository interface {
+	GetById(id uint) (*User, error)
+	DeleteById(id uint) error
+	Create(user *User) error
+}
+
+type repository struct {
+	db *gorm.DB
+}
+
+func NewRepository(db *gorm.DB) UserRepository {
+	r := repository{db: db}
+	return &r
+}
+
+func (r *repository) Create(user *User) error {
+	return r.db.Create(user).Error
+}
+
+func (r *repository) DeleteById(id uint) error {
+	return r.db.Delete(&User{}, id).Error
+}
+
+func (r *repository) GetById(id uint) (*User, error) {
+	var user User
+	if err := r.db.First(&user, id).Error; err != nil {
+		return nil, err
+	}
+	return &user, nil
+}
