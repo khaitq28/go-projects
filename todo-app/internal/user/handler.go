@@ -44,7 +44,6 @@ type RequestBody struct {
 }
 
 func (h *UserHandler) createUser(c *gin.Context) {
-
 	var body RequestBody
 	if err := c.ShouldBindJSON(&body); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input"})

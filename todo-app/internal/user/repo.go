@@ -21,7 +21,7 @@ func NewRepository(db *gorm.DB) UserRepository {
 }
 func (r *repository) GetAll() ([]*User, error) {
 	var users []*User
-	if err := r.db.Find(&users).Error; err != nil {
+	if err := r.db.Preload("Tasks").Find(&users).Error; err != nil {
 		return nil, err
 	}
 	return users, nil
@@ -37,7 +37,7 @@ func (r *repository) DeleteById(id uint) error {
 
 func (r *repository) GetById(id uint) (*User, error) {
 	var user User
-	if err := r.db.First(&user, id).Error; err != nil {
+	if err := r.db.Preload("Tasks").First(&user, id).Error; err != nil {
 		return nil, err
 	}
 	return &user, nil

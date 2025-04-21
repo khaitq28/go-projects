@@ -1,11 +1,13 @@
 package user
 
 import "fmt"
+import "todo-app/internal/task"
 
 type User struct {
-	ID    uint   `gorm:"primaryKey"`
-	Name  string `gorm:"type:varchar(50);not null;"`
-	Email string `gorm:"type:varchar(100);not null;unique;"`
+	ID    uint        `gorm:"primaryKey"`
+	Name  string      `gorm:"type:varchar(50);not null;"`
+	Email string      `gorm:"type:varchar(100);not null;unique;"`
+	Tasks []task.Task `gorm:"foreignKey:UserID"`
 }
 
 func (u *User) PrintOut() {
