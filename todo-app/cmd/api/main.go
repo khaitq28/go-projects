@@ -11,7 +11,11 @@ func main() {
 
 	fmt.Println("Hello World")
 
-	ctx := appcontext.NewAppContext()
+	ctx, err := appcontext.NewAppContext()
+	if err != nil {
+		fmt.Println("Failed to init context:", err)
+		return
+	}
 
 	userHandler := user.NewUserHandler(ctx.UserService)
 

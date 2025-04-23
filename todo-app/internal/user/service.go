@@ -21,6 +21,7 @@ func (userService *userService) GetUserById(id uint) (*User, error) {
 }
 
 func (userService *userService) GetAllUsers() ([]*User, error) {
+
 	return userService.userRepository.GetAll()
 }
 

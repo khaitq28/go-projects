@@ -3,7 +3,6 @@ package appcontext
 import (
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
-	"log"
 	"sync"
 	"todo-app/internal/user"
 )
@@ -13,16 +12,18 @@ type AppContext struct {
 }
 
 var (
-	appCtx *AppContext
-	once   sync.Once
+	appCtx  *AppContext
+	once    sync.Once
+	initErr error
 )
 
-func NewAppContext() *AppContext {
+func NewAppContext() (*AppContext, error) {
 	once.Do(func() {
 		dsn := "host=localhost user=todo_user password=todo_pass dbname=todo_db port=5432 sslmode=disable"
 		db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 		if err != nil {
-			log.Fatal("failed to connect to db:", err)
+			initErr = err
+			return
 		}
 
 		userRepo := user.NewRepository(db)
@@ -32,5 +33,5 @@ func NewAppContext() *AppContext {
 		}
 	})
 
-	return appCtx
+	return appCtx, initErr
 }
