@@ -4,9 +4,17 @@ run dockerfile for Postgres
 
 ```bash
 docker-compose up -d
+
+(in macos)
+docker compose up -d  
 ```
 
-Project structure
+Run CLI app: 
+```
+go run cmd/cli/go.main
+```
 
-
-![img.png](img.png)
+Run Api app
+```
+go run cmd/api/go.main
+```
