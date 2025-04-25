@@ -11,5 +11,5 @@ type User struct {
 }
 
 func (u *User) PrintOut() {
-	fmt.Printf("name: %s, email: %s\n", u.Name, u.Email)
+	fmt.Printf("id: %d,  name: %s, email: %s\n", u.ID, u.Name, u.Email)
 }

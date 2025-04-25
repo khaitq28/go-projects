@@ -4,6 +4,7 @@ type UserService interface {
 	CreateUser(name, email string) (*User, error)
 	GetUserById(id uint) (*User, error)
 	GetAllUsers() ([]*User, error)
+	DeleteUser(id uint) error
 }
 
 type userService struct {
@@ -23,6 +24,10 @@ func (userService *userService) GetUserById(id uint) (*User, error) {
 func (userService *userService) GetAllUsers() ([]*User, error) {
 
 	return userService.userRepository.GetAll()
+}
+
+func (userService *userService) DeleteUser(id uint) error {
+	return userService.userRepository.DeleteById(id)
 }
 
 func NewUserService(userRepository UserRepository) UserService {
