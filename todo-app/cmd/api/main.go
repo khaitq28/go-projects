@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"todo-app/internal/appcontext"
+	"todo-app/internal/task"
 	"todo-app/internal/user"
 )
 
@@ -18,9 +19,13 @@ func main() {
 	}
 
 	userHandler := user.NewUserHandler(ctx.UserService)
+	taskHandler := task.NewTaskHandler(ctx.TaskService)
 
 	r := gin.Default()
 	api := r.Group("/api/v1")
+
 	userHandler.RegisterRoutes(api)
+	taskHandler.RegisterRoutes(api)
+
 	r.Run(":8080")
 }

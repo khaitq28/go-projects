@@ -69,11 +69,11 @@ func createNewTask() {
 	descInput, _ := reader.ReadString('\n')
 	desc = strings.TrimSpace(descInput)
 
-	eror := taskService.Create(userId, title, desc)
-	if eror != nil {
-		fmt.Println("Error: ", eror)
+	task, err := taskService.Create(userId, title, desc)
+	if err != nil {
+		fmt.Println("Error: ", err)
 	} else {
-		fmt.Println("Task created successfully!")
+		fmt.Println("Task created successfully!", task)
 	}
 }
 

@@ -7,7 +7,7 @@ import (
 type TaskService interface {
 	DeleteById(id uint) error
 	Toggle(id uint) error
-	Create(userId uint, title string, description string) error
+	Create(userId uint, title string, description string) (*model.Task, error)
 	GetByUserId(userId uint) ([]*model.Task, error)
 	GetAllTasks() ([]*model.Task, error)
 }
@@ -29,9 +29,13 @@ func (service *taskService) GetAllTasks() ([]*model.Task, error) {
 	return service.taskRepository.FindAll()
 }
 
-func (service *taskService) Create(userId uint, title string, description string) error {
+func (service *taskService) Create(userId uint, title string, description string) (*model.Task, error) {
 	task := model.Task{UserID: userId, Title: title, Des: description}
-	return service.taskRepository.Create(&task)
+	err := service.taskRepository.Create(&task)
+	if err != nil {
+		return nil, err
+	}
+	return &task, nil
 }
 
 func (service *taskService) DeleteById(id uint) error {
