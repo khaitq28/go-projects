@@ -1,10 +1,12 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"os"
 	"os/exec"
 	"runtime"
+	"strings"
 	"todo-app/internal/appcontext"
 )
 
@@ -54,12 +56,19 @@ func createNewTask() {
 		title  = ""
 		desc   = ""
 	)
+	reader := bufio.NewReader(os.Stdin)
+
 	fmt.Print("\nEnter User ID: ")
 	fmt.Scanln(&userId)
-	fmt.Print("\nEnter Task title: ")
-	fmt.Scanln(&title)
-	fmt.Print("\nEnter Task description: ")
-	fmt.Scanln(&desc)
+
+	fmt.Print("Enter Task title: ")
+	titleInput, _ := reader.ReadString('\n')
+	title = strings.TrimSpace(titleInput) // loại bỏ dấu newline
+
+	fmt.Print("Enter Task description: ")
+	descInput, _ := reader.ReadString('\n')
+	desc = strings.TrimSpace(descInput)
+
 	eror := taskService.Create(userId, title, desc)
 	if eror != nil {
 		fmt.Println("Error: ", eror)
