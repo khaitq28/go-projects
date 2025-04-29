@@ -4,11 +4,13 @@ import (
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"sync"
+	"todo-app/internal/task"
 	"todo-app/internal/user"
 )
 
 type AppContext struct {
 	UserService user.UserService
+	TaskService task.TaskService
 }
 
 var (
@@ -27,9 +29,11 @@ func NewAppContext() (*AppContext, error) {
 		}
 
 		userRepo := user.NewRepository(db)
+		taskRepo := task.NewRepository(db)
 
 		appCtx = &AppContext{
 			UserService: user.NewUserService(userRepo),
+			TaskService: task.NewTaskService(taskRepo),
 		}
 	})
 

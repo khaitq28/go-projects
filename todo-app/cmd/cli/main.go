@@ -23,7 +23,10 @@ func main() {
 		}
 
 		switch choice {
-
+		case "1":
+			createNewTask()
+		case "2":
+			listAllTasks()
 		case "5":
 			addANewUser()
 		case "6":
@@ -42,6 +45,39 @@ func main() {
 		fmt.Scanln()
 	}
 
+}
+
+func createNewTask() {
+	taskService := context.TaskService
+	var (
+		userId uint
+		title  = ""
+		desc   = ""
+	)
+	fmt.Print("\nEnter User ID: ")
+	fmt.Scanln(&userId)
+	fmt.Print("\nEnter Task title: ")
+	fmt.Scanln(&title)
+	fmt.Print("\nEnter Task description: ")
+	fmt.Scanln(&desc)
+	eror := taskService.Create(userId, title, desc)
+	if eror != nil {
+		fmt.Println("Error: ", eror)
+	} else {
+		fmt.Println("Task created successfully!")
+	}
+}
+
+func listAllTasks() {
+	taskService := context.TaskService
+	tasks, err := taskService.GetAllTasks()
+	if err == nil {
+		for _, task := range tasks {
+			task.PrintOut()
+		}
+	} else {
+		fmt.Println("Error: ", err)
+	}
 }
 
 func deleteAnUser() {

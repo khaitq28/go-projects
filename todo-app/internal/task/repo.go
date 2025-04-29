@@ -12,6 +12,8 @@ type TaskRepository interface {
 	Create(task *model.Task) error
 	ToggleTask(id uint) error
 	FindById(id uint) (*model.Task, error)
+	FindByUserId(userId uint) ([]*model.Task, error)
+	FindAll() ([]*model.Task, error)
 }
 
 type repository struct {
@@ -22,6 +24,25 @@ func NewRepository(db *gorm.DB) TaskRepository {
 	repo := repository{db: db}
 	return &repo
 }
+
+func (rep *repository) FindAll() ([]*model.Task, error) {
+	var tasks []*model.Task
+	err := rep.db.Find(&tasks).Error
+	if err != nil {
+		return nil, err
+	}
+	return tasks, nil
+}
+
+func (rep *repository) FindByUserId(userId uint) ([]*model.Task, error) {
+	var tasks []*model.Task
+	err := rep.db.Where("UserID = ?", userId).Find(&tasks).Error
+	if err != nil {
+		return nil, err
+	}
+	return tasks, nil
+}
+
 func (repo *repository) FindById(id uint) (*model.Task, error) {
 	var task model.Task
 	err := repo.db.Preload("Tasks").First(&task, id).Error

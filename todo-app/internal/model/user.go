@@ -10,5 +10,11 @@ type User struct {
 }
 
 func (u *User) PrintOut() {
-	fmt.Printf("id: %d,  name: %s, email: %s\n", u.ID, u.Name, u.Email)
+	fmt.Println("===================\n")
+	fmt.Printf("User Id: %d,  name: %s, email: %s\n", u.ID, u.Name, u.Email)
+	fmt.Println("Tasks:\n")
+	for _, task := range u.Tasks {
+		task.PrintOut()
+	}
+	fmt.Println("===================\n")
 }
