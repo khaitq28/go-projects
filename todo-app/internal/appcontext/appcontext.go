@@ -4,8 +4,8 @@ import (
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"sync"
-	"todo-app/internal/task"
-	"todo-app/internal/user"
+	"todo_app/internal/task"
+	"todo_app/internal/user"
 )
 
 type AppContext struct {

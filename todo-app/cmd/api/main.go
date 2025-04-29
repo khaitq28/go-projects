@@ -3,11 +3,21 @@ package main
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"todo-app/internal/appcontext"
-	"todo-app/internal/task"
-	"todo-app/internal/user"
+	"todo_app/internal/appcontext"
+	"todo_app/internal/task"
+	"todo_app/internal/user"
+
+	_ "todo_app/cmd/api/docs"
+
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
+// @title My App API
+// @version 1.0
+// @description This is a sample Gin application with Swagger
+// @host localhost:8080
+// @BasePath /
 func main() {
 
 	fmt.Println("Hello World")
@@ -23,6 +33,8 @@ func main() {
 
 	r := gin.Default()
 	api := r.Group("/api/v1")
+
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	userHandler.RegisterRoutes(api)
 	taskHandler.RegisterRoutes(api)

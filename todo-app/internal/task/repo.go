@@ -4,7 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"gorm.io/gorm"
-	"todo-app/internal/model"
+	"todo_app/internal/model"
 )
 
 type TaskRepository interface {

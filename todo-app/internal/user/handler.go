@@ -43,6 +43,15 @@ type RequestBody struct {
 	Email string `json:"email" binding:"required,email"`
 }
 
+// @Summary Create a user
+// @Description Create a new user
+// @Tags users
+// @Accept json
+// @Produce json
+// @Param user body model.User true "User to create"
+// @Success 200 {object} model.User
+// @Failure 400 {object} map[string]string
+// @Router /users [post]
 func (h *UserHandler) createUser(c *gin.Context) {
 	var body RequestBody
 	if err := c.ShouldBindJSON(&body); err != nil {

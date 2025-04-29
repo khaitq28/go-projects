@@ -1,6 +1,6 @@
 package user
 
-import "todo-app/internal/model"
+import "todo_app/internal/model"
 
 type UserService interface {
 	CreateUser(name, email string) (*model.User, error)

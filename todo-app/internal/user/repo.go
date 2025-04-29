@@ -2,7 +2,7 @@ package user
 
 import (
 	"gorm.io/gorm"
-	"todo-app/internal/model"
+	"todo_app/internal/model"
 )
 
 type UserRepository interface {

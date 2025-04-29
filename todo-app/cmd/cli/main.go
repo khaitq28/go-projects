@@ -7,7 +7,7 @@ import (
 	"os/exec"
 	"runtime"
 	"strings"
-	"todo-app/internal/appcontext"
+	"todo_app/internal/appcontext"
 )
 
 var context, _ = appcontext.NewAppContext()

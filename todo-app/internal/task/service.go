@@ -1,7 +1,7 @@
 package task
 
 import (
-	"todo-app/internal/model"
+	"todo_app/internal/model"
 )
 
 type TaskService interface {
