@@ -17,14 +17,14 @@ func NewTaskHandler(taskService TaskService) *TaskHandler {
 func (h *TaskHandler) RegisterRoutes(rg *gin.RouterGroup) {
 	r := rg.Group("/tasks")
 	r.POST("/", h.createTask)
-	r.GET("/", h.getAllUsers)
+	r.GET("/", h.getAllTasks)
 	//r.GET("/", h.welcome)
 }
 
 type RequestBody struct {
 	UserId uint   `json:"user_id" binding:"required"`
-	Title  string `json:"name" binding:"required"`
-	Desc   string `json:"email" binding:"required"`
+	Title  string `json:"title" binding:"required"`
+	Desc   string `json:"description" binding:"required"`
 }
 
 func (h *TaskHandler) createTask(c *gin.Context) {
@@ -41,7 +41,7 @@ func (h *TaskHandler) createTask(c *gin.Context) {
 	c.JSON(http.StatusCreated, task)
 }
 
-func (h *TaskHandler) getAllUsers(c *gin.Context) {
+func (h *TaskHandler) getAllTasks(c *gin.Context) {
 	tasks, err := h.taskService.GetAllTasks()
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Could not get all tasks"})

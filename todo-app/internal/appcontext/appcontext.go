@@ -1,12 +1,12 @@
 package appcontext
 
 import (
-	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"sync"
 	"todo_app/internal/task"
 	"todo_app/internal/user"
 )
+import "gorm.io/driver/mysql"
 
 type AppContext struct {
 	UserService user.UserService
@@ -21,8 +21,9 @@ var (
 
 func NewAppContext() (*AppContext, error) {
 	once.Do(func() {
-		dsn := "host=localhost user=todo_user password=todo_pass dbname=todo_db port=5432 sslmode=disable"
-		db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+		//dsn := "host=localhost user=todo_user password=todo_pass dbname=todo_db port=5432 sslmode=disable"
+		dsn := "todo_user:todo_pass@tcp(localhost:3306)/todo_db?charset=utf8mb4&parseTime=True&loc=Local"
+		db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 		if err != nil {
 			initErr = err
 			return
