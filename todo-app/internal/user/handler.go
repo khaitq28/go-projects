@@ -17,9 +17,9 @@ func NewUserHandler(userService UserService) *UserHandler {
 
 func (h *UserHandler) RegisterRoutes(rg *gin.RouterGroup) {
 	r := rg.Group("/users")
-	r.POST("/", h.createUser)
+	r.POST("", h.createUser)
 	r.GET("/:id", h.getUserByID)
-	r.GET("/", h.getAllUsers)
+	r.GET("", h.getAllUsers)
 	//r.GET("/", h.welcome)
 }
 
