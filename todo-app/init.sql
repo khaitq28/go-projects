@@ -15,8 +15,9 @@ CREATE TABLE IF NOT EXISTS tasks (
         FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
     ) ENGINE=InnoDB;
 
-INSERT IGNORE INTO users (id, name, email) VALUES
-(1, 'FIRST_USER', 'firstemail@gmail.com');
+INSERT INTO users (id, name, email) VALUES
+(1, 'AdminY2k', 'user1@gmail.com'),
+(2, 'UserNormalY2k', 'user2@gmail.com');
 
-INSERT IGNORE INTO tasks (id, user_id, title, des) VALUES 
-(1, 1, 'FIRST_TASK', 'This is the first task description');
+# INSERT IGNORE INTO tasks (id, user_id, title, des) VALUES
+# (1, 1, 'FIRST_TASK', 'This is the first task description');

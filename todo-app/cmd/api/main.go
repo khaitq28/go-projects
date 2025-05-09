@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"math/rand/v2"
 	"net/http"
 	"todo_app/internal/appcontext"
 	"todo_app/internal/task"
@@ -28,6 +29,9 @@ func main() {
 		fmt.Println("Failed to init context:", err)
 		return
 	}
+
+	// Initialize data
+	initData()
 
 	userHandler := user.NewUserHandler(ctx.UserService)
 	taskHandler := task.NewTaskHandler(ctx.TaskService)
@@ -55,4 +59,23 @@ func main() {
 	taskHandler.RegisterRoutes(api)
 
 	r.Run(":8080")
+}
+
+func initData() {
+	ctx, err := appcontext.NewAppContext()
+	if err != nil {
+		fmt.Println("Failed to init context:", err)
+		return
+	}
+	userService := ctx.UserService
+	taskService := ctx.TaskService
+	users, _ := userService.GetAllUsers()
+	for _, user := range users {
+		for i := 0; i < 10; i++ {
+			id := rand.Uint32()
+			title := fmt.Sprintf("Task %d", id)
+			desc := fmt.Sprintf("Description %d", id)
+			taskService.Create(user.ID, title, desc)
+		}
+	}
 }

@@ -3,10 +3,10 @@ package model
 import "fmt"
 
 type User struct {
-	ID    uint   `gorm:"primaryKey"`
-	Name  string `gorm:"type:varchar(50);not null;"`
-	Email string `gorm:"type:varchar(100);not null;unique;"`
-	Tasks []Task `gorm:"foreignKey:UserID"`
+	ID    uint   `gorm:"primaryKey" json:"id"`
+	Name  string `gorm:"type:varchar(50);not null;" json:"name"`
+	Email string `gorm:"type:varchar(100);not null;unique;" json:"email"`
+	Tasks []Task `gorm:"foreignKey:UserID" json:"tasks"`
 }
 
 func (u *User) PrintOut() {
