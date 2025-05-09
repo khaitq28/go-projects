@@ -45,7 +45,7 @@ func (rep *repository) FindByUserId(userId uint) ([]*model.Task, error) {
 
 func (repo *repository) FindById(id uint) (*model.Task, error) {
 	var task model.Task
-	err := repo.db.Preload("Tasks").First(&task, id).Error
+	err := repo.db.First(&task, id).Error
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			fmt.Println("Not found")

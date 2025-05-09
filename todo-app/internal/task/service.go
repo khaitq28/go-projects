@@ -10,6 +10,7 @@ type TaskService interface {
 	Create(userId uint, title string, description string) (*model.Task, error)
 	GetByUserId(userId uint) ([]*model.Task, error)
 	GetAllTasks() ([]*model.Task, error)
+	GetById(id uint) (*model.Task, error)
 }
 
 type taskService struct {
@@ -25,6 +26,9 @@ func (service *taskService) GetByUserId(userId uint) ([]*model.Task, error) {
 	return service.taskRepository.FindByUserId(userId)
 }
 
+func (service *taskService) GetById(id uint) (*model.Task, error) {
+	return service.taskRepository.FindById(id)
+}
 func (service *taskService) GetAllTasks() ([]*model.Task, error) {
 	return service.taskRepository.FindAll()
 }

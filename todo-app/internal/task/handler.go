@@ -2,6 +2,7 @@ package task
 
 import (
 	"net/http"
+	"strconv"
 )
 import "github.com/gin-gonic/gin"
 
@@ -18,6 +19,7 @@ func (h *TaskHandler) RegisterRoutes(rg *gin.RouterGroup) {
 	r := rg.Group("/tasks")
 	r.POST("", h.createTask)
 	r.GET("", h.getAllTasks)
+	r.GET("/:id", h.getTaskById)
 	//r.GET("/", h.welcome)
 }
 
@@ -52,4 +54,19 @@ func (h *TaskHandler) getAllTasks(c *gin.Context) {
 
 func (h *TaskHandler) welcome(c *gin.Context) {
 	c.JSON(http.StatusOK, "Hello world, welcome to the Tasks service!")
+}
+
+func (h *TaskHandler) getTaskById(c *gin.Context) {
+	idParam := c.Param("id")
+	id, err := strconv.Atoi(idParam)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid ID"})
+		return
+	}
+	user, err := h.taskService.GetById(uint(id))
+	if err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "task not found : " + err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, user)
 }

@@ -6,10 +6,10 @@ import (
 )
 
 type Task struct {
-	ID         uint      `gorm:"primaryKey" json:"ID"`
-	UserID     uint      `gorm:"not null" json:"UserID"`
+	ID         uint      `gorm:"primaryKey" json:"id"`
+	UserID     uint      `gorm:"not null" json:"user_id"`
 	Title      string    `gorm:"type:varchar(50);not null" json:"title"`
-	Des        string    `gorm:"type:varchar(100);" json:"des"`
+	Des        string    `gorm:"type:varchar(100);" json:"description"`
 	Status     string    `gorm:"type:varchar(20);default:'pending'" json:"status"`
 	CreatedAt  time.Time `gorm:"autoCreateTime" json:"createdAt"`
 	FinishedAt time.Time `gorm:"type:datetime;default:null" json:"finishedAt"`
